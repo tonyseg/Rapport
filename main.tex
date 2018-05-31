@@ -1,0 +1,689 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{pgfplots}
+\usepackage{geometry}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm , right=2.5cm}
+
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{array}
+\usepackage{float}
+\usepackage{caption}
+\usepackage[french]{babel}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{appendix}
+\usepackage[justification=centering]{caption}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[pdftex,pdfborder={0 0 0}]{hyperref}
+\usepackage{natbib}
+%\usepackage[style=authoryear]{biblatex}
+\bibliographystyle{abbrvnat}
+\usepackage{bookmark}
+
+\renewcommand{\textbf}[1]{\begingroup\bfseries\mathversion{bold}#1\endgroup}
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+
+\title{Rapport de Stage}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+	\includegraphics[width=0.4\textwidth]{sorbonne}~\\[0.5cm]
+	% Title
+	\HRule \\[0.4cm]
+
+	{\huge \bfseries Rapport de Stage\\ \LARGE
+		Débat basé sur la théorie de la décision* \\[0.5cm] } 
+
+	\HRule \\[1.0cm]
+
+	% Author and supervisor
+	\begin{minipage}{0.5\textwidth}
+		\begin{flushleft} \large
+			\emph{Auteur:}\\
+            Tony \textsc{Seguin}\\
+		\end{flushleft}
+        \begin{flushleft}
+        	\emph{Encadrants:}\\
+            Olivier \textsc{Cailloux}\\
+            Meltem \textsc{Oztürk}\\
+            
+
+
+            
+        \end{flushleft}
+	\end{minipage}
+    			%
+\end{center}
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{lamsade}~\\[0.5cm]
+\end{center}
+
+%\hfill
+
+%\hfill
+
+%\hfill
+
+%\hfill
+
+
+Version : \today
+
+\section*{Résumé}
+	\textbf{to do}
+
+	\vfill
+\begin{center}
+	% Bottom of the page
+	{\Large Master \textit{ANDROIDE} 2nd Année\\[0.1cm]}
+	{Année universitaire 2017/2018}
+\end{center}
+\end{titlepage}
+
+%\newpage
+
+%\section*{Remerciement}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Une forme de problème d'aide à la décision consiste à formaliser et déterminer les préférences d'un décideur dans le but de fournir une alternative recommandable par rapport à un ensemble d'alternative possible. En fonction  du contexte du problème, fournir juste une recommandation à l'aide de modèle de décision n'est pas forcément suffisante, les décideurs peuvent avoir besoin d'explication, sur comment la recommandation a été faite et pourquoi elle est la meilleure pour eux. En  effet, l'argumentation, la justification, d'une recommandation est une part importante de la décision. Construire une explication compréhensible et convaincante est nécessaire pour un décideur. Dans le cas des systèmes de recommandation (SR) en ligne, il a été montré que les explications augmentent l'acceptabilité d'une alternative recommandée \textcolor{blue}{\citep{PU2007542}}. Dans ce contexte-ci, une explication doit être simple et complète pour installer une confiance au décideur qu'une alternative recommandée est celle qui lui convient le mieux.
+
+La théorie de la décision propose des modèles capturant les préférences du décideur en vue de l’aider à éclaircir son problème de décision. Nous nous basons sur un article qui considère un problème de décision comme un débat \textcolor{blue}{\citep{DBLP})}, où deux \textit{SR} argumenteraient chacun leur tour à propos de la décision sur le problème. Cette argumentation entre les systèmes permettrait de générer un graphe d'arguments et en fonction de la préférence du décideur, après avoir pris en compte tous ces arguments \textcolor{blue}{\citep{DUNG1995321}}, la décision sera prise. Nous nous plaçons dans le cadre des systèmes d'Aide Multi-Critère à la Décision  (AMCD). 
+Le premier objectif du stage est donc de trouver des \textit{SR} qui génèrent une \textit{argumentation} sur la base de modèle de préférence. Une recherche sera entreprise, avec comme point de départ une \textit{review} \textcolor{blue}{\citep{NunesJannachUmuai2017}}. Après avoir mis en évidence un certain nombre d'approches générant des arguments, nous devrons en sélectionner deux qui pourront être adaptée avec notre système afin de générer des arguments et des contre-arguments basés sur leurs modèles d'argumentation. Le but est de faire argumenter ces deux approches entre elles pour générer une explication. Ce qui implique la nécessité d'établir un \textit{langage commun} entre les \textit{SR} et compréhensible pour le décideur.
+L'approche par le biais d'un débat entre deux \textit{SR} nous semble être un bon compromis entre une explication simple et complète. En effet quoi de mieux qu'un débat quasi-naturel pour convaincre une personne que ce que l'on énonce est vrai ou non? C'est pour cela que notre approche se penche sur cette problématique d'argumentation pour la recommandation avec cette nuance qu'est le débat.
+
+\begin{comment}
+On se palce dans le cadre MCDA
+plusieurs travaux dessus
+on s'interresse sur les systeme de recommendation
+plus précisément ceux fournissant une argumentation.
+on se place dans ce cadre mais avec l'approche d'un débat
+le but du stage est donc de mettre en application, projet deux systeme qui feront un débat entre eux; en utilisant des argument et contre argument;
+LE but : comment conceptualisé les approche dans le débat, langage commun  et programmer ce sujet; 
+\end{comment}
+
+
+Ce rapport est découpé (actuellement) en 2 parties. Dans un premier temps, 
+Section 3, un état de l'art sur les systèmes de recommandation et d'aide à la décision, basé sur la review de \textcolor{blue}{\citep{NunesJannachUmuai2017}}
+, est effectué afin d'avoir une idée assez large des approches que l'on pourrait utiliser dans le cadre du projet. Une recherche d'approche compatible a été effectuée sur la base de critère de sélection que nous avons défini, permettant de lister des approches compatibles. Et finalement, Section 4, nous présentons en détail les deux approches sélectionnées pour notre débat.
+
+
+\section{Notations et définitions}
+
+Avant d'entrer dans les détails de notre approche, il est nécessaire de poser les définitions et les notations que nous allons utiliser tout au long du projet. Nous établissons d'abord les connaissances pour les systèmes de recommandation et ensuite les arguments et les relations entre eux pour le jugement de la décision lors d'un débat.
+
+\newpage
+
+\subsection{Connaissances}
+
+Nous prenons comme notations des connaissances celles tirées de \textcolor{blue}{\citep{LABREUCHE20111410}} :\\
+
+\begin{description}
+
+\item [$X = X_1 \times ... \times X_n$] : l'ensemble des alternatives décrit sur $n$ critères, $x \in X$;
+\item [$N$] : l'ensemble des critères;
+\item [$X_i$] : l'échelle des performances des alternatives sur le critère $i$;
+\item [$x_i$] : la performance de l'alternative $x$ sur le critère $i$;
+\item [$w=(w_1,...,w_n)$] : le vecteur de poids, $\sum_{i=1}^{n} w_i = 1$;
+\item [$w_i$] : le poids du critère $i$, $w_i \in [0,1]$.\\
+\end{description}
+
+En combinant les poids des critères et les performances des alternatives, notre approche s'appuie sur les modèles de décision de type \textit{Multi-Attribute Value Theory} (MAVT) \textcolor{blue}{\citep{KEENEY}} afin d'attribuer un score global à chaque alternative permettant ainsi de déterminer quelle alternative est la meilleure en fonction des préférences du décideur. En général, la fonction de décision associée au modèle est de la forme, pour $x \in X$, $v(x) = \sum_{i=1}^{n} w_i \times v_i(x_i)$, où $v_i(x_i)$ représente l'utilité de $x$ sur le critère $i$. On note $ x_i \succsim_i y_i \Leftrightarrow v_i(x_i) \geq v_i(y_i)$ et $v(x) \rightarrow [0,1]$ . Cette fonction $v$ quantifie la relation de préférence $\succsim$, c'est-à-dire $\forall x,y \in X, x \succsim y \Leftrightarrow v(x) \geq v(y)$.\\
+
+La sélection d'une alternative par rapport aux autres s’établit par la relation binaire $\succsim_i$ sur chaque ensemble $X_i$, représentant ainsi les préférences du décideur sur les éléments de $X_i$. On note $\succ_i$ et $\sim_i$ comme les parties asymétriques et symétrique de $\succsim_i$, et nous notons :\\
+\begin{description}
+\item [$x_i \succsim_i y_i$]  : $x$ est au moins aussi bon que $y$ sur le critère $i$.\\
+\end{description}
+
+Nous disons qu'une alternative $x$ \textit{domine} une alternative $y$ si et seulement si, $\forall i$ $x_i \succ y_i$.
+Nous disons aussi qu'une alternative est \textit{dominante}, si et seulement si, aucune autre alternative ne la domine.
+
+\subsection{Argument et relation}
+
+Les relations entre argument suit la notation et les définitions suivantes \textcolor{blue}{\citep{DBLP}}:\\
+
+\begin{description}
+\item $S$ : l'ensemble des arguments;
+\item $S^+(x,y)$ : ensemble des arguments en faveur de $x$ par rapport à $y$;
+\item $S^-(x,y)$ : ensemble des contre-arguments;
+\item $S^=(x,y)$ : ensemble des arguments neutres;\\
+%\item $a_{(x,y)} \in Arg$ - un argument de $x$ par rapport à $y$.\\
+\end{description}
+
+\begin{comment}
+La relation de préférence $\succsim$ nous permet d'avoir une distinction de ces trois types d'argument, nous avons donc :\\
+
+\begin{itemize}
+\item $Arg^+(x,y) = \{i\in N, x_i \succ_i y_i\}$;
+\item $Arg^=(x,y) = \{i\in N, x_i \sim_i y_i\}$;
+\item $Arg^-(x,y) = \{i\in N, x_i \prec_i y_i\}$.\\
+\end{itemize}
+\end{comment}
+
+Ces arguments permettent de mettre en évidence les phases de compromis pour une alternative qui n'est pas dominante. Les trois derniers ensembles d'arguments sont inclus dans l'ensemble $S$.\\
+
+\begin{description}
+\item [$T$] : ensemble des proposition possible;
+\item [$P$] : ensemble des perspectives.\\
+\end{description}
+
+Dans notre cas, les propositions possibles sont $\{\forall x,y \in X, t_{x \geq y} \}$, représentant ainsi chaque paire possible de  comparaison d'une alternative sur une autre. Une perspective $p \in P$ représente le point de vue de décideur, qui peut changer au cours du débat s'il a été convaincu d'un argument nouveau. C'est-à-dire qu'un argument $s$ peut être valide selon une perspective $p$ mais non valide sur une perspective $p'$.
+Les ensembles $P$, $T$ et $S$ déterminent la position argumentative du décideur et est représentée via les relations suivantes :\\
+
+\begin{description}
+\item [$\leadsto \hspace{.1cm} \subseteq S \times T$] : on note $s \leadsto t$, l'argument $s$ \textit{soutient} la proposition $t$;
+\item [$\triangleright_\exists \subseteq S \times S$] : on note $s_2 \triangleright_\exists s_1$, l'argument $s_2$ \textit{attaque} l'argument $s_1$, s'il l'attaque dans au moins une perspective, $s_1$ devient un argument invalide;	
+\item [$\ntriangleright_\exists \hspace{.1cm} \subseteq S \times S$] :  on note $s_2 \ntriangleright_\exists s_1$, l'argument $s_2$ n'attaque pas l'argument $s_1$, $s_1$ reste un argument valide.\\
+\end{description}
+
+Un argument $s \in S$ peut soutenir plusieurs propositions comme aucune. On  admet $\neg(a_2 \triangleright_\exists a_1 ) \Rightarrow a_2 \ntriangleright_\exists a_1$. Si le décideur change d'avis, les relations ($\triangleright_\exists$, $\ntriangleright_\exists$) suffisent à capturer ce changement.\\
+
+\noindent \textbf{Définition 1} Une situation de décision est définie par le tuple
+$(T, S , \leadsto, \triangleright_\exists , \ntriangleright_\exists )$.\\
+
+\begin{description}
+\item [$\triangleright_\forall$] : défini comme 
+$a_2 \triangleright_\forall a_1 \Leftrightarrow \neg(a_2 \ntriangleright_\exists
+ a_1)$;
+ \item [$\ntriangleright_\forall$] : défini comme 
+$a_2 \ntriangleright_\forall a_1 \Leftrightarrow \neg(a_2 \triangleright_\exists
+ a_1)$.\\
+\end{description}
+
+La relation $a' \triangleright_\forall a$ signifie que l'argument $a'$ attaque l'argument $a$ sur toutes les perspectives. En revanche la relation $a' \ntriangleright_\forall a$ signifie que $a'$ n'attaque jamais $a$.\\
+
+\noindent \textbf{Définition 2} Étant donné une situation de décision $(T, S , \leadsto, \triangleright_\exists ,\ntriangleright_\exists  )$, un argument $s \in S$ est décisif, si et seulement si, $\forall s' \in S : s' \ntriangleright_\forall s$.\\
+
+\noindent \textbf{Définition 3} Étant donné une situation de décision $(T, S , \leadsto, \triangleright_\exists , \ntriangleright_\exists )$, une proposition $t$ est :\\
+
+\hspace*{1cm} $\bullet$ acceptable si et seulement si, $\exists s \in S$ | $ss \leadsto t$, $\forall s' : s'\ntriangleright_\forall s$;\\
+
+\hspace*{1cm}  $\bullet$ rejetable si et seulement si, $\forall s \in S$ | $s \leadsto t$, $\exists s_c$ | $s_c \triangleright_\forall s$ et $\forall s_{cc} : s_{cc} \ntriangleright_\forall s_c$.\\
+
+
+ 
+\noindent \textbf{Definition 4} Une situation de décision  $(T, S , \leadsto, \triangleright_\exists , \ntriangleright_\exists )$ est claire, si et seulement si, chaque proposition dans $T$ est acceptable ou rejetable.\\
+
+\noindent \textbf{Definition 5} Le  jugement délibéré du décideur correspondant à la 
+situation de décision $(T, S , \leadsto, \triangleright_\exists , \ntriangleright_\exists )$ est :\newline
+
+\hspace*{3cm}$T_{decideur}$ = \{ $t \in T$ | $t$ est acceptable \}.
+
+
+\begin{comment}
+\section{Sujet du stage}
+
+Dans cette section nous présentons le sujet du stage et nous l'imageons par l’intermédiaire d'un scénario.
+
+\subsection{Présentation}
+%La théorie de la décision propose des modèles capturant les préférences du décideur en vue de l’aider à éclaircir son problème de décision. En se basant sur l'article de \textcolor{blue}{Cailloux et Meinard (2017)} on considère donc un problème de décision comme un débat, où deux systèmes de recommandation argumenteraient chacun leurs tour à propos de la décision sur le problème. Cette argumentation entre les systèmes permettrait de générer un graphe d'argument et en fonction de la préférence du décideur après avoir pris en compte tous ces arguments \textcolor{blue}{(Dung, 1995)}, la décision sera prise.
+
+Le premier objectif du stage est donc de trouver des approches qui génèrent des arguments sur la base de modèle de préférence. Une recherche sera donc entreprise, comme point de départ la review de \textcolor{blue}{Nunes et Jannach (2017)}.
+
+Après avoir mis en évidence un certain nombre d'approche générant des arguments, nous devrons en sélectionner deux qui pourront être modifiées afin de générer des arguments et des contre-arguments basés sur leurs modèle d'argumentation. Le but est de faire argumenter ces deux approches entre elles pour générer une explication, ce qui implique de les rendre compatibles entre elles. Nous devrons donc établir un \textit{langage commun} et compréhensible pour le décideur.
+
+\subsection{Scénario}
+
+%Si nous étions dans une approche multi-agent, le scénario serait composé de 2 types d'agents : décideur(D) et recommandeur(R). Nous avons un agent de type D, et deux agents de type R représentant deux systèmes de recommandation possédant chacun une méthode de recommandation et d'argumentation. Nous prenons pour le moment l'approche avec 2 agents de recommandation pour le scénario pour plus de simplicité. Le débat se déroule de la manière suivante :\\
+
+
+
+\textcolor{blue}{to do : convenir d'un protocole de dialogue entre les modèles et le décideur, le role de chacun et introduire ici le schéma}
+
+\end{comment}
+
+\section{État de l'art}
+
+Dans cette section nous allons décrire ce qui a été entrepris dans le domaine des systèmes d'aide à la décision et de l'argumentation d'après la \textit{review} de \textcolor{blue}{\citep{NunesJannachUmuai2017}}. Les graphiques et données dans cette section ont pour source cet article uniquement. 
+Nous établissons d'abord une vision large du domaine, sur les quatre décennies précédentes, ensuite nous discuterons autour des caractéristiques d'une explication en général, les méthodes de génération, le contenu, la manière dont elle est fournie au décideur et les objectifs des systèmes de recommandation. Finalement nous exposons notre recherche d'approches compatibles pour le débat que nous voulons entreprendre et finirons par une courte présentation de chaque approche.
+
+\subsection{Deux grandes familles de système de recommandation}
+
+Dans la \textit{review}, les articles étudiés sont classés en quatre catégories : (i) \textit{Technique}, pour les articles générant une nouvelle forme d'explication (ii) \textit{Tool}, les articles décrivant un outil incluant un processus d'explication (iii) \textit{Evaluation}, les articles évaluant ou comparant des formes d'explication et (iv) \textit{Foundational}, les articles discutant autour des aspects des explications.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=.7\textwidth]{tendance_articles}
+\caption{Nombre d'article par catégorie par décennie. La dernière décennie correspond à 2010 - 12 Août 2016.}
+\end{center}
+\end{figure}
+
+D'après la \textsc{Figure 1}, le nombre de publications sur le sujet par décennie augmente constamment. Les articles d’outils étaient plus communs dans le passé, selon les auteurs ce genre d'article était peut-être d'avantage considéré comme une contribution dans la recherche durant période. En revanche il y a une augmentation du nombre d'articles qui introduisent des nouvelles techniques d’explication tout au long des décennies. Les articles d’évaluations d’explications sont plus nombreux ces dernières années, d'après les auteurs cela serait une amélioration de la maturité par rapport à la communauté en matière de méthodologie de recherche. Et nous remarquons très peu d'articles fondamentaux sur le sujet.
+
+Entre les années \textit{90} et \textit{2000} une stagnation du nombre de publications est remarquée dû au rôle déclinant des systèmes basés sur les connaissances (principalement ceux basés sur des règles) et à l’engouement pour le \textit{Machine Learning} (ML) dans le domaine des systèmes de recommandation, durant les années \textit{2000}, qui ne cherchait qu'à déterminer les bonnes recommandations au détriment de fournir une explication. Cela s'explique car la \textit{review} ne s'intéresse qu'aux articles où la notion d'explication est précisée.
+
+Cet remarque nous montre les principales catégories dans les systèmes de recommandation, à savoir :\\
+
+\noindent \textbf{Les systèmes basés sur le Machine Learning} qui sont essentiellement appliqués au commerce en ligne (ex: Amazon, Google) et aux multimédias (ex: Netflix, Steam, Facebook). Ils se décomposent en 3 sous-catégories :
+
+\begin{description}
+ 
+\item [Basé sur le \textit{contenu} (<<Content-based>>)]\hfill \\
+Ces approches sont basées sur le contenu d'un profil d'un décideur, construit à l'aide des données sur celui-ci, soit par interaction avec le décideur soit par apprentissage des informations sur ses dernières actions (ex: ses derniers achats en ligne). Le mécanisme de cette approche est de recommander une alternative \textit{similaire} à une des alternatives contenues dans son profil, c'est-à-dire que le système cherche à trouver une paire d'alternatives $(a,b)$, où $a$ est dans le profil du décideur et $b$ dans un voisinage proche. Cela se fait à l'aide d'une \textit{fonction de similarité}, il en existe plusieurs, par exemple \textit{Normalised Google Distance} qui détermine la similarité entre des termes textuels en utilisant leurs co-occurrences sur des sites internet :\\
+\begin{equation}
+	d(a,b) = \frac{max \{log f(a), log f(b)\} - log f(a,b)}{log M - min \{log f(a), log f(b)\}}
+\end{equation}
+
+Où $M$ est le nombre total de page Google cherchées, $f(a)$ et $f(b)$ sont respectivement le nombre d'occurrence de $a$ et de $b$, et f(a,b) est le nombre de co-occurrence de $a$ et $b$.\\
+
+\item [Filtrage Collaboratif (<<Collaborative filtering>>)] \hfill \\
+On note $D$ l'ensemble des décideurs, $V_d \subseteq X$ pour l'ensemble des alternatives que le décideur $d$ a déjà noté et $R$ l'ensemble des notes $r_{dx}$ des décideurs $d \in D$ sur les alternatives $x \in V_d$. .
+Dans la base de données de \textit{Netflix} par exemple, les notes sont des entiers compris entre 1 et 5 pour signifier respectivement avoir aimé ou détesté le film.
+
+\quad Le but des approches par filtrage collaboratif est d’être capable de \textit{prédire} la note $p_{dx}$ qu'un décideur $d$ donnera à une alternative $x$. Le décideur $d$ est supposé actif, c'est-à-dire qu'il a déjà noté un certain nombre d'alternatives, donc $V_d \neq \emptyset$, et que l'alternative $x$ prédit n'est pas encore connu du décideur, $x \notin V_d$.
+
+\quad Ce genre d'approche a plusieurs méthodes de prédiction possible, l'une des plus utilisées est celle basée sur les profils des décideurs à l'aide d'une fonction de \textit{similarité} sim(d,d') déterminant la similarité entre deux décideurs $d$ et $d'$. Ceci permet de créer un ensemble de taille $K$ de voisins de $d$, noté $T_d$, qui sont les $K$ décideurs qui maximisent leurs similarités avec le décideur $d$. une prédiction possible pour la note du décideur $d$ sur l'alternative $x$ est d'utiliser une somme pondérée des notes des plus proches voisins $d' \in T_d$ qui ont déjà noté l'alternative $x$ :
+
+\begin{equation}
+ p_{dx} = \frac{\sum_{\{d'\in T_d | x \in V_d'\}} sim(d,d') \times r_{d'x} } {\sum_{\{d'\in T_d | x \in V_d'\}} |sim(d,d')| }
+\end{equation}
+
+\item [Hybride (<<Hybrid>>)] \hfill \\
+Ces approches combinent au moins deux techniques de recommandation dans le but d'obtenir de meilleure performance avec moins de retour. La plus commune est  une approche de filtrage collaboratif combinée avec d'autres techniques dans le but d'éviter le problème de démarrage à froid. Ce problème se rencontre lorsque le système n'a pas assez d'informations sur le profil du décideur. Un exemple d'approche \textit{hybride} est la combinaison d'une approche basée sur le contenu qui force les alternatives à être, en même temps, proche du profil du décideur, et noté par les décideurs du voisinage du décideur \textcolor{blue}{\citep{Balabanovic1997}}.\\
+\end{description}
+
+\noindent \textbf{Les systèmes basés sur les connaissances (<<Knowledge-based>>)} qui utilisent des connaissances explicites sur l'ensemble des alternatives $X$ et les préférences du décideur, par exemple l'importance des critères ou des contraintes fixées. Ces approches s'appliquent sur des problèmes de décision, par exemple un décideur possède une liste de choix et il ne sait pas quel choix prendre. On dénombre un certain nombre de sous-catégories.\\
+
+%\newpage
+
+\begin{description}
+	\item [Basé sur des règles (<<Rule-based>>)]  \hfill \\
+    Ces approches s'appuient sur les connaissances d'un expert d'un domaine, ses connaissances sont exprimées sous la forme de règles. En appliquant les données d'entrée du problème, des règles seront activées et chaque règle fournit une argumentation. Une règle est de la forme if-then, c'est-à-dire qu'un ou plusieurs prérequis sont nécessaires pour activer la règle pour donner un argument. Par exemple dans \textcolor{blue}{Wick et  Sagle (1989)} une règle est : \\
+
+    \textbf{IF} high water in the 	reservior\newline
+ 	\qquad \textbf{THEN} cracks in the interface\newline
+	\hspace{1cm}\textbf{BECAUSE} high water in the reservior causes cracks in the interface.\\
+    
+Où la clause \textbf{BECAUSE} est la justification de la recommandation \textbf{THEN} par rapport à la condition \textbf{IF}.\\
+
+	\item [Basé sur la logique (<<Logic-based>>)]  \hfill \\
+		Ce genre d'approche est principalement liée à la \textit{Logique Floue} (\textit{Fuzzy Logiq}) \textcolor{blue}{\citep{Zadeh}}. Elle est basé sur des \textit{degrés de vérité} plutôt que sur la logique booléenne <<vrai ou faux>> (0 ou 1). 
+        
+La \textit{Logique Floue} inclut 0 et 1 comme des cas extrêmes de vérité mais inclut une variété de cas intermédiaire de vérité entre eux. Par exemple la vitesse normale est de 90km/h sur les routes nationales françaises. La vitesse est considérée comme élevée au-dessus de 100km/h et réglementaire en dessous de 80km/h. Si nous nous plaçons dans le contexte où on veut savoir si un véhicule à une vitesse élevée, on obtient qu'un véhicule n'ait pas de vitesse élevé en dessous de 80km/h (0), qu'il ait une vitesse élevée à partir de 100km/h (1), mais s'il est par exemple à 90km/h
+on dit que la véhicule à une vitesse élevée à 50\% (0.5).\\
+       
+    \item [Basé sur un raisonnement par cas (<<Case-based reasoning>>)]  \hfill \\
+   Le raisonnement par cas, \citep{RiesbeckCBR}, est le processus de résolution de nouveaux problèmes basés sur les solutions d'anciens problèmes similaires. Autrement dit, ces approches s'appuient sur d'anciennes recommandations possédant un contexte (préférence du décideur) \textit{similaire} au nouveau problème. Par exemple en médecine, si un patient $p$ possède les mêmes symptômes qu'un ancien patient $p'$, le médecin va prescrire le traitement $x$ qu'il avait prescrit au patient $p'$. Dans \citep{Mcsherry2005}, la fonction de similarité entre deux cas $c \in C$, $C$ l'ensemble des cas, et $q$ sur un sous-ensemble de critère $N_Q$ est de la forme :\\
+   
+   \begin{equation}
+   	sim(c,q)= \sum_{n \in N_q} w_a sim_n(c,q)
+   \end{equation}\\
+   
+   où $sim_n(c,q)$ est la similarité locale entre $c$ et $q$ sur le critère $n$. Cette fonction permet d'établir le voisinage de $q$ et ainsi de déterminer les cas similaires à $q$.\\
+    
+    \item [Prise de décision multi-critère (<<Multi Criteria Decision Making>>)]  \hfill \\
+   Selon \textcolor{blue}{\citep{Triantaphyllou2000}} \textit{Multi-Criteria Decision Making} (\textit{MCDM}) et \textit{Multi-Attribute Decision Making} (\textit{MADM}) représentent la même catégorie, se regroupant sous la bannière \textit{MCDM}. Les approches se basant sur des modèles MCDM, s'appuient essentiellement sur deux informations : l'ensemble des alternatives $X$ décrient sur un ensemble de critères $N$ et le vecteur $w$ représentant l'importance de chaque critère. Il existe plusieurs méthode pour déterminer l'alternative qui sera la plus à même de satisfaire le décideur,comme \textit{analytic hierarchy process} (AHP) \textcolor{blue}{\citep{Saaty}} ou  \textit{weighted product model}, mais la plus connue étant la méthode MAVT: 
+   \begin{equation}
+   		X^* = max_{x \in X} \sum_{i = 1}^n w_i \times v_i{x_i}. 
+   \end{equation}
+   
+    où $X^*$ est le score de la meilleur alternative et $n = |N|$.
+    
+\end{description}
+ 
+
+\subsection{Argumentation dans des systèmes de recommandation}
+
+Les systèmes d'aide à la décision étaient plus focalisés sur le fait de déterminer la meilleure recommandation plutôt que l’apport d’explications. C'est à partir de l'engouement pour le \textit{ML}, voir Section 3.3, et les débuts du domaine des \textit{Multi-Criteria Decision Analyses} que l'argumentation a pris plus de considération.\\
+
+\noindent \textbf{Méthode de génération}\\
+
+Les articles cités dans la \textit{review} donnent peu de détails a propos du processus de génération d'explication. Ceci s’explique car le processus est étroitement lié avec la méthode d’inférence de décision et les données utilisées pour déterminer la meilleur alternative. Si la méthode d’inférence est basée sur des règles, l’explication fourni au décideur consistera en un ensemble de représentation de langage naturel des règles qui ont été activées.
+
+\begin{figure}[!ht]
+\begin{center}
+	\includegraphics[width=1\textwidth]{methodes}
+	\caption{Occurrence des types de méthodes utilisées par décennie}
+\end{center}
+\end{figure}
+
+
+Avec l’engouement historique des explications des systèmes experts à base de règle, il est normal que la majorité des études adoptent une approche basée sur les connaissances pour la décision par inférence et par extension pour la génération des explications.
+On remarque à nouveau la déclinaison des systèmes à base de règle au fil du temps et un engouement croissant pour les approches basées sur le \textit{ML}. Les explications par les systèmes de filtrage collaboratif sont principalement étudiées depuis le début des années 2000, dû à la forte croissance du nombre et des formes de données, ces approches sont plus adaptées.
+
+La catégorie \textit{Autres} représente les formes d'approches alternatives par exemple  l'utilisation d'heuristique spéciale ou d'ontologies (Ontology Web Language) et les approches qui utilisent un raisonnement basé sur les connaissances sans fournir plus de détail sur leur fonctionnement.\\
+
+
+\begin{comment}
+
+
+\end{comment}
+
+
+\textbf{Contenu}\\
+
+Une explication doit fournir une information dépendant de divers facteurs, incluant les expertises ou les intérêts du décideur voire leur situation contextuelle courante. On distingue quatre grandes parties de contenu, répertoriées dans la Figure 3:
+
+\begin{figure}[!ht]
+\begin{center}
+	\includegraphics[width=.8\textwidth]{contenu}
+	\caption{Occurrence du type de contenu utilisé dans une argumentation. Une explication d'un article peut fournir plusieurs types de contenus.}
+\end{center}
+\end{figure}
+
+\begin{description}
+	\item [Préférence du décideur:]
+    Une manière pour expliquer la suggestion faite par le système est d’utiliser les entrées fournies par le décideur comme explication, c'est-à-dire fournir : (1) quelles entrées sont les plus décisives par rapport à la recommandation. (2) quelles contraintes sont respectées et quelles ne le sont pas (3) les critère important (par une analyse de sensibilité par exemple) (4) et dans quelle mesure l’alternative recommandée est appropriée. Ce qu'on voit dans la Figure 3, c'est que ce sont les entrées décisives du décideur qui sont le plus souvent utilisées dans cette partie, ainsi que le respect de ses préférences.\\
+    
+    \item [Processus de décision par inférence :] Fournir une information à propos du processus itératif d’un problème de décision spécifique (une trace) est l’approche la plus commune. Ceci s'explique par rapport aux systèmes à base de règles qui fournissaient la liste des règles activées comme argumentation. Quelques explications fournissent seulement la logique générale du processus d’inférence interne du système, c'est-à-dire le fonctionnement interne de l'algorithme. D’autres fournissent la confiance du système sur sa suggestion ou taux de succès sur les situations de prise de décision passées.\\
+    
+%\newpage
+    
+    \item [Contexte et information complémentaire :] Peu d'explications fournissent des informations contextuelle supplémentaire qui sont spécifiques à la prise de décision courante. Divers types de contexte et informations complémentaires sont relevés, par exemple les tendances populaires. Ces types de contenu est utilisé principalement par les approches en \textit{ML}.\\
+    
+%\newpage
+    
+    \item [Alternative et critères :] Les approches \textit{MCDM} en revanche expliquent la suggestion du système en analysant les caractéristiques des alternatives (chaque critère est étudié pour chaque proposition possible). L'argumentation derrière consiste en une liste de caractéristiques, le compromis (le pour et le contre), pour chaque alternative. D’autres réfèrent les relations de dominance basées sur les caractéristiques, mais la majorité des explications montrent quels critères sont décisifs durant le processus de recommandation.\\
+      
+\end{description}
+
+%\newpage
+
+\noindent \textbf{Présentation}\\
+
+Majoritairement, les explications sont présentées sous forme de langage naturel, comprenant celles basées sur des canevas, ou <<texte à trou>>, qui sont par exemple instanciées avec des listes d'arguments avant d’être soumis au décideur. Un exemple de canevas serait \textit{Il n'y a aucune raison de choisir <alternative 1> , alors que <alternative 2>
+est meilleur sur tous les critères.}, ceci résumant la domination de l'alternative 2 sur l'alternative 1. Il existe aussi la présence assez forte d'utilisation de forme de visualisation (graphe, arbre, etc.), pour imager et ainsi améliorer l'argumentation fournie au décideur \textcolor{blue}{\citep{10.1007/978-3-642-22218-4_5,Narayanan}}.
+
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[width=.6\textwidth]{presentation}
+		\caption{Occurrence des manières de présenter une explication}
+	\end{center}
+\end{figure}
+
+D'une tout autre manière, un certain nombre d'approches donnent un listing de différents items pour l'argumentation comme par exemple une liste des contraintes satisfaites \textcolor{blue}{(Deep et al, 1988)} ou une liste de relation de préférence sur certain critère entre deux alternatives \textcolor{blue}{\citep{Labreuche2015}}. Les 7 articles, catégorisé dans Argument sont des approches qui utilisent une structure des arguments de \textcolor{blue}{\citep{Toulmin}}. 
+
+\vspace{.5cm}
+
+\subsection{Objectifs des argumentations des systèmes de recommandation}
+
+Il est nécessaire de relever l'importance du but d’une explication \textcolor{blue}{Tintarev et Masthoff\citep{}}. D'après les auteurs il faut différencier les buts annoncés des vrais buts. La plupart des études de la \textit{review} ne précisent pas forcément les buts des explications fournies. La Figure 5 se base seulement sur les buts annoncés dans ces articles.
+
+Le but recherché le plus commun est la \textit{transparence}, c'est-à-dire expliquer comment le système est parvenu à sa suggestion. Les explications fournies dans ces études se focalisent sur l’exposition du processus d’inférence dans le but de rendre la décision recommandée compréhensible. Il existe d'après eux des liens entre les buts, par exemple, la transparence impliquerait la \textit{confiance} du décideur envers le système de recommandation, que la confiance est un effet indirect attendu de la transparence. Le second plus fréquent des buts des explications est l’\textit{efficacité}, c'est-à-dire d’aider les décideurs à évaluer si l’alternative recommandée est bien adéquate pour eux. La force de \textit{persuasion}, c'est-à-dire la capacité à un système à pousser le décideur dans une certaine direction (en conflit avec l’efficacité, \textcolor{blue}{\citep{Chen2014}}, est dans une nombre important d’études de la \textit{review}, principalement les articles de \textit{ML}.
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=.6\textwidth]{buts}
+\caption{Nombre d'articles Technique et Outils par but}
+\end{center}
+\end{figure}
+
+
+Ces dernières années, la \textit{satisfaction} du décideur, la \textit{scrutabilité} (la possibilité de dire au système que c’est faux) et le fait d’aider le décideur à faire un choix \textit{plus rapide} sont au goût du jour. En effet, réduire la charge cognitive et essayer d’améliorer la satisfaction des décideurs par un système est l’aspect essentiel des applications \textit{e-commerce}, qui est un sujet très rechercher ces dernières années. Dans ce contexte, le potentiel persuasif naturel des explications attire plus d’intérêt dans la recherche ces dernières années.
+
+\subsection{Élargissement de l'état de l'art : choix des approches pour le débat}
+
+Nous allons maintenant discuter des approches que nous avons sélectionnées. Tout d'abord nous allons préciser quels critères de sélection nous établissons pour les approches compatibles avec notre projet. Nous allons exposer notre recherche d'une part sur la \textit{review} et d'autre part un élargissement de recherche et nous finissons par un léger résumé de chacune des approches retenues.
+
+\subsubsection{Critère de sélection}
+
+Dans le cadre du projet, les articles doivent être cohérents entre eux, c'est-à-dire qu'ils adoptent, dans les grandes lignes, des modèles de recommandation et donc d'argumentation compatible entre eux. Il est donc nécessaire que les articles que nous allons sélectionner, pour la recommandation basé sur un débat, soient spécifique à aucun domaine et par conséquent non contextualisés. Ce qui est notre premier critère de sélection.
+
+Le second critère est sur quelles informations nos approches vont s'appuyer pour argumenter; comme vu Section 3, les approches basées sur les connaissances permettent une argumentation riche et détaillée. En adoptant un Modèle d'Aide Multi-Critère à la Décision  (MAMCD), le compromis, les critères décisifs, pertinents ou non, sont des types d'argument qui rentrent dans notre schéma de débat. C'est pourquoi nous nous pencherons seulement sur les approches basées sur les connaissances et utilisant un MAMCD.
+
+%Nous nous plaçons d'un point de vue, où les modèles possèdent toutes les informations nécessaires pour argumenter, nous allons donc naturellement prendre comme troisième critère les approches utilisant des fonction de décision de type MAVT.
+
+Et comme dernier critère, seules les approches fournissant une argumentation en faveur d'une seule alternative seront retenues. Ces argumentations peuvent être de type : <<A meilleur que B>> ou <<A meilleur que tous les autres>>.
+
+\subsubsection{Recherche}
+
+La recherche des approches a été faite en deux parties, dans un premier temps une sélection des articles étudiés dans une \textit{review} \textcolor{blue}{\citep{NunesJannachUmuai2017}} a été réalisée et dans un second temps une recherche pour élargir notre vision d'ensemble et obtenir un nombre assez conséquent d'approches a été effectuée.\\
+
+\noindent \textbf{Review}\newline
+
+Nous avons expliqué que la \textit{review} catégorise les articles en quatre catégories (\textit{Tool}, \textit{Technique}, \textit{Fundamental} et \textit{Evaluation}).
+Dans un premier temps, seuls les articles \textit{Technique} sont conservés, car ce sont des articles avec des approches non contextualisée (contrairement aux Tools) pour la majorité, soit 101 articles. Ensuite nous avons conservé seulement les articles étiquetés par les auteurs comme étant des approches basées sur les connaissances, plus précisément celles utilisant un MAMCD, ce qui nous donne 8 articles. Les résumés et conclusions ont été inspectés, ainsi qu'une lecture transversale de l'ensemble  des articles nous a permis de réduire à 5 articles, en effet un article \textcolor{blue}{\citep{BIELZA2000725}} est basé sur un modèle de type Multi Atrribute Utility Theory (MAUT), le second article rejeté est contextualisé dans le domaine de la médecine\textcolor{blue}{\citep{BOHANEC2000191}}. Les articles conservés sont listés en Table 1.
+%rajouté l'explication de l'exclusion de l'article de BADER
+\vspace{.3cm}
+
+%\newpage 
+
+\noindent \textbf{Table 1} Articles retenus de la review
+\begin{center}
+\begin{minipage}{.95\textwidth}
+\hrule \vspace{.2cm}
+\noindent	\textbf{Auteurs} \hspace*{2cm}\textbf{Titres}
+\vspace{.2cm}    
+\hrule \vspace{.2cm}
+Klein et Shortliffe \hspace*{.47cm} A framework for explaining decision-theoretic advice \\
+Carenini et Moore  \hspace*{.4cm} Generating and evaluating evaluative arguments \\
+Labreuche \hspace*{1.75cm} A general framework for explaining the results of a multi-attribute\\
+\hspace*{3.6cm} preference model \\
+%Bader et al  \hspace*{1.6cm} Designing an Explanation Interface for Proactive Recommendations \\
+%\hspace*{3.7cm}in Automotive Scenarios\\
+Nunes et al   \hspace*{1.55cm}    Pattern-based Explanation for Automated Decisions    \\
+Belahcene et al \hspace*{.9cm}  Explaining robust additive utility models by sequences of preference\\
+\hspace*{3.6cm} swaps 
+\vspace{.2cm}
+\hrule
+\end{minipage}
+\end{center}
+
+\vspace{1cm}
+
+\newpage
+
+\noindent \textbf{Élargissement}\\
+
+Ensuite, une recherche supplémentaire a été exécutée pour élargir le nombre d'approches possible, nous avons d'abord établi les mots-clés de pour la recherche ainsi que leurs synonymes. En effet dans la littérature tout le monde ne s'accorde pas à utiliser les mêmes termes pour désigner la même chose. Le premier terme est \textit{argumentation}, qui est l'ingrédient essentiel de notre recherche, ensuite le deuxième terme est \textit{decision support system} incluant ainsi les systèmes de recommandation et le troisième est \textit{multi-criteria} désignant toute les variantes telles que \textit{Multi-Criteria Decison Making} par exemple.\\
+
+%\newpage
+
+\noindent \textbf{Table 2} Termes et synonymes
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+\hrule \vspace{.2cm}
+\noindent	\textbf{Termes}  	\hspace*{2.3cm}		\textbf{Synonymes}
+\vspace{.2cm}
+\hrule \vspace{.2cm}
+\noindent argumentation  \hspace*{1.75cm} 	explanation, justification \\
+    decision support system \hspace*{.2cm}	decision making, recommandation \\
+ \hspace*{4.3cm}   knowledge-based system, knowledge based system\\
+    multi-criteria 		\hspace*{2cm} multi-attribute, multi attribute, multi criteria
+   \vspace{.2cm}
+\hrule
+\vspace{1cm}
+\end{minipage}
+\end{center}
+\vspace{-.7cm}
+La recherche à l'aide de ces mots-clés prend forme de la manière suivante sur les plus larges bases de données de librairies d'articles en ligne, à savoir : \textit{ACM Digital Library}, \textit{IEEE Xplore Digital Library}, \textit{ScienceDirect} et \textit{Springer Link}.\\
+
+\fbox{\begin{minipage}{0.9\textwidth}
+(argumentation $\vee$ justification $\vee$ explanation) $\wedge$ (decision support system $\vee$ decision making $\vee$ recommendation $\vee$ knowledge-based system $\vee$ knowledge based system) $\wedge$ (multi-criteria $\vee$ multi-attribute $\vee$ multi attribute $\vee$ multi criteria)
+\end{minipage}}
+
+\vspace{1cm}
+
+Ces termes ont été recherchés dans les titres et les résumés de chaque article des librairies, nous avons obtenu 98 articles, sur l'ensemble des librairies, voir Table 3. Dans un premier temps, les titres et résumés ont été étudiés, pour réaliser un premier filtre, ensuite une lecture plus en détail des articles restants a été entreprise.\\
+
+%\newpage
+
+\noindent \textbf{Table 3} Résultat de recherche par source
+\begin{center}
+\begin{minipage}{0.7\textwidth}
+\hrule \vspace{.2cm}
+\noindent	\textbf{Sources}  	\hfill	\textbf{Nombre d'articles}
+\vspace{.2cm}
+\hrule \vspace{.2cm}
+\noindent ACM Digital Library \hfill 19\hspace*{.2cm}\\
+     	IEEE Xplore Digital Library \hfill 8\hspace*{.2cm}\\
+ScienceDirect \hfill 19\hspace*{.2cm}\\
+    Springer Link \hfill 52\hspace*{.2cm}\\
+   \vspace{-.2cm}
+\hrule
+\vspace{.2cm}
+\textbf{Total} \hfill 98\hspace*{.05cm}
+\vspace{.2cm}
+\hrule
+\vspace{1cm}
+\end{minipage}
+\end{center}
+
+\vspace{-.7cm}
+Étonnamment, pour la majorité des cas, les articles ont une approche de type machine learning ou les approches sont des outils pour un problème précis. Toutes ces approches ont été rejetées. Après ce premier filtre nous sommes parvenus à 6 articles restants et après lecture des textes de ces articles, certains ont été rejeté. Par exemple, \textcolor{blue}{\citep{DelleSite2009}}, ne fourni pas d'argumentation,  \textcolor{blue}{\citep{YEVSEYEVA201636}} utilisent des données externes, \textcolor{blue}{\citep{KADZINSKI2017146}} est une analyse expérimentale d'une fonction additive dans plusieurs méthodes de désagrégation des préférences.\\
+
+\newpage
+
+\noindent \textbf{Table 4} Articles retenus de la recherche d'élargissement
+
+\begin{center}
+\begin{minipage}{1\textwidth}
+\vspace{.2cm}
+\hrule \vspace{.2cm}
+\noindent	\textbf{Auteurs} \hspace*{2.8cm}\textbf{Titres}
+\vspace{.2cm}    
+\hrule \vspace{.2cm}
+Labreuche and al \hspace*{1.3cm} A Dialogue Game for Recommendation with Adaptive Preference\\ 
+%\hspace*{4.35cm} Models\\
+%Kadziński and al \hspace*{1.4cm} Expressiveness and robustness measures for the evaluation of an \\  
+%\hspace*{4.4cm} additive value function in multiple criteria preference disaggregation\\
+\hspace*{4.4cm} methods: An experimental analysis\\
+Geldermann \hspace*{2.2cm} Explanation Systems\\
+%Gurumurthy et Kodali \hspace*{.5cm} Performance Value Analysis for the Justification of Lean\\
+%\hspace*{4.4cm} Manufacturing Systems\\
+%Yevseyeva et al \hspace*{1.7cm} Modeling and analysis of influence power for information security\\
+%\hspace*{4.4cm} decisions\\
+Papamichail et French \hspace*{.5cm} Explaining and justifying the advice of a decision support system:
+a \\
+\hspace*{4.4cm} natural language generation approach
+\vspace{.2cm}
+\hrule
+\end{minipage}
+\end{center}
+
+\vspace{.2cm}
+
+\subsubsection{Présentations des approches sélectionnées}
+
+En s'appuyant sur la review de \textcolor{blue}{\citep{NunesJannachUmuai2017}} et l'élargissement présenté précédemment 8 approches respectent les critères imposés. Une présentation par ordre chronologique de chaque article est établie ci-après.\\
+
+\noindent \textbf{Klein et Shortliffe}\\ %1994
+
+L'approche de \textcolor{blue}{\citep{KLEIN1994201}} est l'une des premières approches à fournir une argumentation dans un modèle ADMC, elle pose les bases de cette branche de l'aide à la décision. Les auteurs présentent plusieurs stratégies basées sur la MAVT pour expliquer automatiquement les décisions parmi plusieurs objectifs en conflit.
+Ils décrivent ces stratégies dans un framework prénommé IVA (Interpretive Value Analysis), dans un cadre large d'explication et d'acquisition de pointe dans des systèmes experts qui modélisent des décisions à forte intensité de compromis, exposition du pour et du contre d'une alternative.
+Les concepts d'interprétation jouent le rôle de primitives d'explication dans les  stratégies d'IVA  et sont également utilisés comme fonctions d'évaluation qui guident la composition des explications. 
+Les stratégies génèrent des comparaisons sommaires de paires particulières d'alternatives en limitant la profondeur et la largeur d'un arbre de valeurs. 
+Les stratégies produisent des comparaisons plus détaillées d'alternatives, fournissant des traces pas à pas de calculs des différences de valeurs multi-attributs.\\
+
+%\newpage
+
+\noindent \textbf{Papamichail et French}\\ %2003
+
+Cette approche décrit une méthode pour générer une explication dans une décision de contexte analytique. D'après \textcolor{blue}{\citep{PAPAMICHAIL200335}} le point fort de leur approche est le développement d'une librairie de texte planifié, c'est-à-dire un ensemble de canevas instancié par les arguments trouvés par le système de recommandation, pour structurer le message soumis au décideur. L'approche est en revanche générique. Le système fournit deux types de rapport: (i) un rapport de  comparaison expliquant le raisonnement derrière le classement des alternatives et (ii) un rapport d'analyse de sensibilité fournissant une évaluation globale du modèle de décision et décrit l'effet de la variation d'un paramètre de décision.
+
+L'analyse de variation des paramètres de décision nous révèle un intérêt pour cette approche.\\
+
+%\noindent \textbf{Gurumurthy et Kodali}\\ %2007
+
+
+
+\noindent \textbf{Carenini et Moore}\\ %2009
+
+L'article de \textcolor{blue}{\citep{CARENINI2006925}} se veut interdisciplinaire (théorie de l'argumentation, théorie de la décision, linguistique informatique, psychologie sociale et interaction homme-machine). L'approche se focalise principalement sur la génération de l'argumentation en langage naturel. La sélection et l'organisation du contenu de l'argumentation est basée sur les principes de la théorie de l'argumentation.
+
+En se concentrant uniquement sur les parties argumentation et théorie de la décision, l'approche se détache des autres car elle forme un graphe de relation entre les arguments. Ce graphe est utilisé pour générer ensuite une explication en langage naturel, compréhensible humainement, et adaptée aux préférences du décideur.\\
+
+
+\noindent \textbf{Geldermann}\\ %2009
+
+L'article de \textcolor{blue}{Geldermann (2009)} fournit une application pour un système d'explication pour des systèmes d'aide à la décision basée sur MAUT et plus spécifiquement sur MAVT. L'argumentation se fait par le biais d'un rapport comparatif, c'est-à-dire qu'elle fournit une interprétation des résultats d'évaluations du modèle en comparant deux alternatives. Le rapport discute de la façon dont une alternative évalue l'autre sur chaque critère d'évaluation, en soulignant les arguments pour et contre chaque alternative, sur la base des scores de critères réels. Ainsi, il examine à quel point une alternative est meilleure qu'une autre et souligne les facteurs qui les différencient. Un autre type de rapport est fournit, l'analyse de sensitivité, qui explique les graphiques d'analyse de sensibilité et illustre l'effet du changement du poids d'un attribut dans le classement des alternatives et discute de la robustesse de la meilleure alternative.
+
+Cette approche est trop similaire à l'approche de \textcolor{blue}{\citep{PAPAMICHAIL200335}}, si l'une est retenue la seconde ne le sera pas.\\ 
+
+\noindent \textbf{Labreuche}\\ %2011
+
+Cette approche veut fournir une explication plus simple à comprendre par rapport à l'approche de \textcolor{blue}{\citep{KLEIN1994201}}. En effet l'approche de \textcolor{blue}{\citep{LABREUCHE20111410}}, propose une approche pour sélectionner les arguments utilisables dans une explication faite pour un problème de décision multi-critère pondéré par des poids assignés à ces critères. Il se base sur l'analyse des valeurs de ces poids ainsi que le score des alternatives pour les comparer. Un seul modèle utilisé sur les trois de l'article nous intéresse, le modèle Expected Utility (EU), qui est un modèle MAVT. Le but de l'approche est de rechercher certains changements dans le vecteur de poids $w$ qui permet une inversion de la décision fournie par le modèle entre deux alternatives. L'explication se focalise alors sur le ou les critères qui ont été modifiés dans $w$. Les autres critères ne sont pas mentionnés pour une explication se voulant le plus court possible. Il y a deux stratégies de modification de $w$: (i) le remplacement de $w$ par un autre vecteur de poids de référence $w^F$ et (ii) la permutation des poids de $w$. La première stratégie permet de mettre évidence les critères importants et non importants, et la seconde permet de déterminer les critères décisifs.
+
+Cet article a pour objectif d'argumenter avec le minimum d'argument possible. Sa vision d'argumenter en utilisant les mauvais cotés comme étant compensé par une meilleure partie d'une alternative par rapport à une autre alternative en fait un bon candidat.\\
+
+%\newpage
+
+\noindent \textbf{Nunes et al}\\ %2014
+
+L'approche de \textcolor{blue}{\citep{NUNES2014669}} est l'une des plus complètes, elle s'appuie sur une génération d'explications basées sur un groupe d'algorithmes pour identifier les paramètres permettant de remplir le canevas d'explication qu'ils fournissent dans l'article. 
+En effet une explication possède 7 formes possibles, s'adaptant ainsi aux différents cas particuliers de décision. Si plusieurs formes d'explications sont possibles pour une alternative recommandée, une ordre pré-établi des formes d'explication est installé pour en choisir qu'une seule. Les principales formes sont : (i) \textit{attribut critique}, l'alternative est choisie car elle a la meilleure performance sur un critère donné (ii) \textit{domination}, l'alternative domine sur tous les critères (iii) \textit{critère décisif}, l'alternative est sélectionnée en raison d'un ensemble de critères (iv) \textit{compromis}, l'alternative a un côté avantageux sur un ensemble de critère qui compense ses défauts.
+Une étude utilisateur a été réalisée incluant une trentaine de participants, leure approche a été comparée à deux autres approches, \textcolor{blue}{\citep{KLEIN1994201,LABREUCHE20111410}}, les résultats indiquant que leurs approches à de meilleurs performances.
+
+Cette approche est plus générale que l'approche de \textcolor{blue}{\citep{LABREUCHE20111410}} par rapport à son éventail de type d'argument possible supérieur et son argumentation de compromis nous fait retenir cette approche.\\
+
+\noindent \textbf{Labreuche and al}\\ %2015
+
+L'interaction via un protocole de dialogue, représenté par un graphe orienté, entre un décideur (1) et leur système de recommandation (2), c'est-à-dire que (1) et (2) s'exprime à tour de rôle. Ceci en fait sa particularité. En effet, \textcolor{blue}{\citep{Labreuche2015}} proposent une méthode où le système s'adapte en fonction des retours du décideur et passe d'un modèle de décision à l'autre en fonction des informations disponibles. Dans l'article seul un modèle nous intéresse, car c'est le seul qui est de MAVT. L'argumentation par contre est sommaire, elle fournit un listing des arguments en faveur d'une alternative par rapport à une autre.
+
+L'approche est intéressante par rapport à son interaction avec le décideur et son protocole de dialogue, mais l'argumentation ainsi que la représentation des connaissances devra être modifiées si l'approche est retenue.\\
+
+\noindent \textbf{Belahcene et al}\\ %2016
+
+L'approche de \textcolor{blue}{\citep{Belahcene2017}} fournit une explication dite complète, contrairement à d'autres approches qui ne fournissent que les points-clés décisifs, dans un contexte de décision multi-critères. Les informations initiales prennent une forme de comparaison par paire d'alternatives.%%%%%%%%%%% modifiée à la demande de "suspense..." bah mon encadrant pardi!!
+La génération d'explications s'inspire d'une méthode <<Even Swap>>, une procédure d'élection utilisant un modèle de valeur additif des valeurs des préférences du décideur et basée sur le \textit{compromis} entre des paires de critères. La version des auteurs est une généralisation d'<<Even Swap>> appliqué sur l'échange des préférences dans le but de simplement montrer une comparaison d'alternatives.
+%%%%%%%%%%%%
+L'explication construit un graphe d'arguments positifs et négatifs entre deux alternatives, pour argumenter pourquoi l'une est préférée à l'autre. La visualisation se fait par un graphe biparti entre les deux types d'arguments.
+
+La génération d'un graphe bipartie (argument et contre-argument), prenant en compte tous les critères incluant ceux non décisifs, rend l'approche pertinente. Cette approche se rapproche de celle de \textcolor{blue}{\citep{CARENINI2006925}} en matière de visualisation des graphes.\\
+
+
+Après avoir considéré les approches listées ci-dessus, nous avons décidé de sélectionner les approches de \textcolor{blue}{\citep{LABREUCHE20111410}} et de \textcolor{blue}{\citep{NUNES2014669}}.
+
+%\noindent \textbf{Yevseyeva et al}\\ %2016
+
+%Dans cette approche, \textcolor{blue}{Yevseyeva et al, (2016)} proposent un modèle opérationnel pour influencer l'utilisateur à faire un choix dans un contexte de sécurité informatique. L'influence est introduite par MAVT.
+%Ils introduisent le concept de critère modifiable, et le pouvoir d'influence quantifiant l'effort nécessaire pour influencer l'utilisateur.
+
+
+%\noindent \textbf{Kadziński and al}\\ %2017
+%Analyses des methodes MAVT
+
+\section{Les 2 Approches retenues}
+
+Dans cette section nous allons présenter les deux approches que nous allons utiliser pour notre débat. Dans un premier temps nous présenterons l'approche de \textcolor{blue}{\citep{LABREUCHE20111410}} et dans un second temps celle de \textcolor{blue}{\citep{NUNES2014669}}. Nous verrons en détails la mécanique de ces deux approches.
+
+\subsection{Approche Labreuche}
+
+\begin{comment}
+\noindent \textbf{Modèle} \\
+
+\noindent \textbf{Arguments} \\
+
+\noindent \textbf{Génération des arguments}  \\
+
+\noindent \textbf{Résultats expérimentaux}   \\
+
+
+\end{comment}
+
+
+\subsection{Approche Nunes}
+
+\begin{comment}
+\noindent \textbf{Modèle} \\
+
+\noindent \textbf{Arguments} \\
+
+\noindent \textbf{Génération des arguments}  \\
+
+\noindent \textbf{Résultats expérimentaux}   \\
+
+\end{comment}
+
+\section{Travaux à venir}
+
+Dans un premier temps nous allons implémenter les deux approches retenues et les tester pour obtenir des résultats cohérents avec leurs articles respectifs. Ensuite la prochaine étape est d'adapter indépendamment l'une de l'autre ces approches à l'article de\textcolor{blue}{\citep{DBLP}} dans le but de générer des arguments et contre arguments et dans le même temps établir le langage commun entre les deux approches et le décideur. Parallèlement nous réfléchirons à l'établissement d'un protocole de dialogue lors de la résolution du problème de décision. La finalité est de faire la convergence des deux approches dans un système unique, de tester sa robustesse, et en fonction du temps faire une étude étude utilisateur du résultat final.
+
+\bibliography{reference}
+
+\end{document}
